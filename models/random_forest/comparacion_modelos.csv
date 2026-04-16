@@ -1,0 +1,2 @@
+Modelo,R² test (2024-25),MAE test,RMSE test,MAPE global (%),MAPE negocio (%),Tiempo (s),GPU,n_estimators,Features,Train años,Estado
+Random Forest,0.9856,72.1,868.2,37.3,17.1,26.2,No,1000,17,2012-2023,✅ Baseline

@@ -1,0 +1,31 @@
+{
+  "Random Forest": {
+    "r2_test": 0.9856,
+    "mae": 72.1,
+    "rmse": 868.2,
+    "mape_global": 37.3,
+    "mape_neg": 17.1,
+    "tiempo_s": 26.2,
+    "gpu": false,
+    "n_est": 1000,
+    "features": [
+      "MesNum",
+      "mes_sin",
+      "mes_cos",
+      "Trimestre",
+      "Es_temporada_alta",
+      "A\u00f1os_desde_inicio",
+      "mes_share_aeropuerto",
+      "Sexo_enc",
+      "Region_enc",
+      "Aeropuerto_enc",
+      "Pais_enc",
+      "nac_imputada",
+      "Lag_1_mes",
+      "Lag_2_mes",
+      "Lag_3_mes",
+      "Lag_12_meses",
+      "Rolling_3m"
+    ]
+  }
+}
