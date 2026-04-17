@@ -1,13 +1,15 @@
 {
   "Random Forest": {
-    "r2_test": 0.9856,
-    "mae": 72.1,
-    "rmse": 868.2,
-    "mape_global": 37.3,
-    "mape_neg": 17.1,
-    "tiempo_s": 26.2,
-    "gpu": false,
-    "n_est": 1000,
+    "r2_2023": 0.9686,
+    "r2_2024": 0.9833,
+    "r2_2025": 0.9824,
+    "mape_neg_2023": 19.0,
+    "mape_neg_2024": 19.0,
+    "mape_neg_2025": 17.6,
+    "mae_2024": 77.3,
+    "rmse_2024": 926.7,
+    "tiempo_s": 49.0,
+    "n_estimators": 2000,
     "features": [
       "MesNum",
       "mes_sin",
@@ -25,7 +27,12 @@
       "Lag_2_mes",
       "Lag_3_mes",
       "Lag_12_meses",
-      "Rolling_3m"
+      "Rolling_3m",
+      "log_lag1",
+      "log_rolling",
+      "log_lag12",
+      "ratio_lag1_lag12",
+      "tendencia_reciente"
     ]
   }
 }
