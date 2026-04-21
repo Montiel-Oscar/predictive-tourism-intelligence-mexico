@@ -1,0 +1,39 @@
+{
+  "XGBoost_Mejorado": {
+    "r2_2023": 0.9857,
+    "mape_neg_2023": 13.8,
+    "r2_2024": 0.9619,
+    "mape_neg_2024": 16.8,
+    "r2_2025": 0.961,
+    "mape_neg_2025": 16.9,
+    "mae_2024": 96.5,
+    "rmse_2024": 1400.0,
+    "best_n": 3035,
+    "device": "cuda",
+    "tiempo_s": 22.1,
+    "features": [
+      "MesNum",
+      "mes_sin",
+      "mes_cos",
+      "Trimestre",
+      "Es_temporada_alta",
+      "A\u00f1os_desde_inicio",
+      "mes_share_aeropuerto",
+      "Sexo_enc",
+      "Region_enc",
+      "Aeropuerto_enc",
+      "Pais_enc",
+      "nac_imputada",
+      "Lag_1_mes",
+      "Lag_2_mes",
+      "Lag_3_mes",
+      "Lag_12_meses",
+      "Rolling_3m",
+      "log_lag1",
+      "log_rolling",
+      "log_lag12",
+      "ratio_lag1_lag12",
+      "tendencia_reciente"
+    ]
+  }
+}
