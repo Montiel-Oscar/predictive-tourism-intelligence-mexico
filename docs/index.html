@@ -4,94 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Motor de Inteligencia Turística · México</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#07090f;--s1:#0d1118;--s2:#131921;--s3:#1a2230;
-  --b0:rgba(255,255,255,0.05);--b1:rgba(255,255,255,0.09);--b2:rgba(255,255,255,0.16);
-  --t1:#dae4f5;--t2:#7a8fa8;--t3:#3c4f65;
-  --blue:#4f8ef7;--blue-l:#7db0ff;--blue-ll:#b3d0ff;
-  --teal:#1fd4b6;--green:#22d68a;--amber:#f5a623;--red:#e85555;
-  --r:12px;--rsm:7px
-}
-body{background:var(--bg);color:var(--t1);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:13px;line-height:1.5;min-height:100vh}
-
-nav{position:sticky;top:0;z-index:200;background:rgba(7,9,15,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--b0);height:56px;padding:0 40px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:10px}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:pulse 2.4s ease-in-out infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(79,142,247,.5)}60%{box-shadow:0 0 0 6px rgba(79,142,247,0)}}
-.btitle{font-size:14px;font-weight:600;letter-spacing:-.2px}
-.bsub{font-size:10px;color:var(--t3);letter-spacing:.6px;text-transform:uppercase;margin-left:4px}
-.pills{display:flex;gap:6px}
-.pill{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:.2px}
-.pb{background:rgba(79,142,247,.12);color:#93bfff;border:1px solid rgba(79,142,247,.25)}
-.pg{background:rgba(34,214,138,.1);color:#6ee7b0;border:1px solid rgba(34,214,138,.2)}
-.pa{background:rgba(245,166,35,.1);color:#fcd38a;border:1px solid rgba(245,166,35,.2)}
-
-main{max-width:1400px;margin:0 auto;padding:32px 40px 80px}
-.sh{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.shl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t3)}
-.shl::after{content:'';display:inline-block;flex:1;height:1px;background:var(--b0);margin-left:12px;vertical-align:middle;width:100px}
-.mb{margin-bottom:36px}
-
-.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.kpi{background:var(--s1);border:1px solid var(--b0);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden;transition:border-color .2s,transform .15s;cursor:default}
-.kpi:hover{border-color:var(--b1);transform:translateY(-2px)}
-.kpi-acc{position:absolute;top:0;left:0;right:0;height:2px}
-.kl{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
-.kv{font-size:30px;font-weight:700;letter-spacing:-1.5px;line-height:1}
-.ku{font-size:15px;font-weight:400}
-.kd{font-size:10px;color:var(--t3);margin-top:5px}
-.delta{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:6px}
-.dg{background:rgba(34,214,138,.1);color:#6ee7b0}.da{background:rgba(245,166,35,.1);color:#fcd38a}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.kpi{animation:fadeUp .45s ease both}
-.kpi:nth-child(1){animation-delay:.05s}.kpi:nth-child(2){animation-delay:.1s}
-.kpi:nth-child(3){animation-delay:.15s}.kpi:nth-child(4){animation-delay:.2s}
-.kpi:nth-child(5){animation-delay:.25s}
-
-.panel{background:var(--s1);border:1px solid var(--b0);border-radius:var(--r);overflow:hidden}
-.ph{padding:13px 18px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.pht{font-size:11px;font-weight:600;color:var(--t1)}
-.phs{font-size:10px;color:var(--t3)}
-.pbd{padding:18px}
-
-.grid-side{display:grid;grid-template-columns:1fr 300px;gap:16px}
-.grid-half{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-
-select{background:var(--s2);color:var(--t2);border:1px solid var(--b1);border-radius:var(--rsm);padding:5px 10px;font-size:11px;cursor:pointer;outline:none;transition:border-color .2s;max-width:190px}
-select:focus,select:hover{border-color:var(--blue);color:var(--t1)}
-.ctrls{display:flex;gap:7px;flex-wrap:wrap}
-
-.strip{display:flex;border-bottom:1px solid var(--b0)}
-.sc{flex:1;padding:11px 18px;border-right:1px solid var(--b0)}.sc:last-child{border-right:none}
-.sl{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--t3);margin-bottom:3px}
-.sv{font-size:20px;font-weight:700;letter-spacing:-.5px}
-
-.ri{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--b0)}.ri:last-child{border-bottom:none}
-.rn{font-size:10px;font-weight:700;color:var(--t3);width:16px;text-align:right;flex-shrink:0}
-.ri-info{flex:1;min-width:0}
-.rnm{font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rv{font-size:9px;color:var(--t3);margin-top:1px}
-.rbar{height:2.5px;background:var(--b0);border-radius:2px;width:56px;flex-shrink:0}
-.rfill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width 1s cubic-bezier(.4,0,.2,1)}
-
-.ct{width:100%;border-collapse:collapse}
-.ct th{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);padding:9px 14px;text-align:left;border-bottom:1px solid var(--b0)}
-.ct td{padding:9px 14px;border-bottom:1px solid var(--b0);font-size:11px;vertical-align:middle}
-.ct tr:last-child td{border-bottom:none}
-.ct tbody tr:hover td{background:rgba(255,255,255,.015)}
-.tag{display:inline-flex;align-items:center;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px}
-.tag-g{background:rgba(34,214,138,.1);color:#6ee7b0;border:1px solid rgba(34,214,138,.2)}
-.tag-a{background:rgba(245,166,35,.1);color:#fcd38a;border:1px solid rgba(245,166,35,.2)}
-.tag-r{background:rgba(232,85,85,.1);color:#fca5a5;border:1px solid rgba(232,85,85,.2)}
-
-#csv-status{font-size:10px;padding:6px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--b0)}
-.spin{width:12px;height:12px;border:1.5px solid var(--b1);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-footer{border-top:1px solid var(--b0);padding:16px 40px;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:var(--t3);letter-spacing:.4px}
-</style>
+<link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
 
@@ -110,41 +23,75 @@ footer{border-top:1px solid var(--b0);padding:16px 40px;display:flex;justify-con
 
 <main>
 
-  <div class="sh mb" style="margin-bottom:14px"><span class="shl">métricas del modelo</span></div>
+  <!-- KPIs -->
+  <div class="sh mb14"><span class="shl">métricas del modelo</span></div>
   <div class="kpi-grid mb">
     <div class="kpi"><div class="kpi-acc" style="background:var(--green)"></div>
-      <div class="kl">MAPE negocio 2023</div><div class="kv" style="color:var(--green)">13.8<span class="ku">%</span></div>
-      <div class="kd">Dentro del estándar ±15%</div><div class="delta dg">↓ 5.2 pts vs RF</div></div>
+      <div class="kl">MAPE negocio 2023</div>
+      <div class="kv" style="color:var(--green)">13.8<span class="ku">%</span></div>
+      <div class="kd">Dentro del estándar ±15%</div>
+      <div class="delta dg">↓ 5.2 pts vs RF</div></div>
     <div class="kpi"><div class="kpi-acc" style="background:var(--amber)"></div>
-      <div class="kl">MAPE negocio 2024</div><div class="kv" style="color:var(--amber)">16.8<span class="ku">%</span></div>
-      <div class="kd">2 años de distancia</div><div class="delta da">↓ 2.2 pts vs RF</div></div>
+      <div class="kl">MAPE negocio 2024</div>
+      <div class="kv" style="color:var(--amber)">16.8<span class="ku">%</span></div>
+      <div class="kd">2 años de distancia</div>
+      <div class="delta da">↓ 2.2 pts vs RF</div></div>
     <div class="kpi"><div class="kpi-acc" style="background:var(--amber)"></div>
-      <div class="kl">MAPE negocio 2025</div><div class="kv" style="color:var(--amber)">16.9<span class="ku">%</span></div>
-      <div class="kd">3 años de distancia</div><div class="delta da">↓ 0.7 pts vs RF</div></div>
+      <div class="kl">MAPE negocio 2025</div>
+      <div class="kv" style="color:var(--amber)">16.9<span class="ku">%</span></div>
+      <div class="kd">3 años de distancia</div>
+      <div class="delta da">↓ 0.7 pts vs RF</div></div>
     <div class="kpi"><div class="kpi-acc" style="background:#a78bfa"></div>
-      <div class="kl">R² en 2023</div><div class="kv" style="color:#c4b5fd">0.9857</div>
-      <div class="kd">Varianza explicada</div><div class="delta dg">↑ 0.017 vs RF</div></div>
+      <div class="kl">R² en 2023</div>
+      <div class="kv" style="color:#c4b5fd">0.9857</div>
+      <div class="kd">Varianza explicada</div>
+      <div class="delta dg">↑ 0.017 vs RF</div></div>
     <div class="kpi"><div class="kpi-acc" style="background:var(--teal)"></div>
-      <div class="kl">Observaciones train</div><div class="kv" style="color:var(--teal)">267<span class="ku">k</span></div>
-      <div class="kd">2012–2022 · 66 aeropuertos</div><div class="delta dg">243 países</div></div>
+      <div class="kl">Observaciones train</div>
+      <div class="kv" style="color:var(--teal)">267<span class="ku">k</span></div>
+      <div class="kd">2012–2022 · 66 aeropuertos</div>
+      <div class="delta dg">243 países</div></div>
   </div>
 
-  <div class="sh" style="margin-bottom:14px"><span class="shl">explorador de segmentos</span></div>
+  <!-- EXPLORADOR -->
+  <div class="sh mb14"><span class="shl">explorador de segmentos</span></div>
   <div class="grid-side mb">
     <div class="panel">
-      <div id="csv-status" style="display:none"></div>
+      <div id="load-bar" class="load-bar">
+        <div class="spin"></div>
+        <span id="load-msg">Cargando datos del modelo…</span>
+      </div>
       <div class="ph">
-        <span class="pht">Real vs Predicción · cualquier combinación</span>
-        <div class="ctrls">
-          <select id="s-air"><option>Cargando...</option></select>
-          <select id="s-cty"><option value="">Todos los países</option></select>
-          <select id="s-reg"><option value="">Todas las regiones</option></select>
-          <select id="s-sex">
-            <option value="">Ambos géneros</option>
+        <span class="pht">Real vs Predicción · filtra por aeropuerto, origen, género y año</span>
+      </div>
+
+      <!-- Fila de filtros -->
+      <div class="filter-area">
+        <div class="filter-row">
+          <label class="flabel">Aeropuerto</label>
+          <select id="s-air" class="fsel wide"></select>
+        </div>
+
+        <!-- País / Región como tabs -->
+        <div class="filter-row">
+          <label class="flabel">Origen</label>
+          <div class="tab-group">
+            <button class="tab active" id="tab-cty" onclick="switchTab('cty')">País</button>
+            <button class="tab" id="tab-reg" onclick="switchTab('reg')">Región</button>
+          </div>
+          <select id="s-cty" class="fsel wide"></select>
+          <select id="s-reg" class="fsel wide" style="display:none"></select>
+        </div>
+
+        <div class="filter-row">
+          <label class="flabel">Género</label>
+          <select id="s-sex" class="fsel">
+            <option value="">Ambos</option>
             <option value="mujer">Mujeres</option>
             <option value="hombre">Hombres</option>
           </select>
-          <select id="s-yr">
+          <label class="flabel" style="margin-left:16px">Año</label>
+          <select id="s-yr" class="fsel">
             <option value="all">2023–2025</option>
             <option value="2023">2023</option>
             <option value="2024">2024</option>
@@ -152,43 +99,64 @@ footer{border-top:1px solid var(--b0);padding:16px 40px;display:flex;justify-con
           </select>
         </div>
       </div>
+
       <div class="strip" id="seg-stats"></div>
-      <div style="height:300px;padding:4px 0"><canvas id="seg-chart" role="img" aria-label="Gráfica de real vs predicción para el segmento seleccionado"></canvas></div>
+      <div style="height:290px;padding:4px 8px">
+        <canvas id="seg-chart" role="img" aria-label="Real vs predicción del segmento seleccionado"></canvas>
+      </div>
     </div>
+
     <div class="panel">
       <div class="ph"><span class="pht">Ranking · volumen predicho 2024–2025</span></div>
-      <div class="pbd" id="rank-body" style="max-height:390px;overflow-y:auto"></div>
+      <div class="pbd" id="rank-body" style="max-height:480px;overflow-y:auto">
+        <div class="placeholder">Cargando…</div>
+      </div>
     </div>
   </div>
 
-  <div class="sh" style="margin-bottom:14px"><span class="shl">estacionalidad</span></div>
+  <!-- ESTACIONALIDAD -->
+  <div class="sh mb14"><span class="shl">estacionalidad · 2024–2025</span></div>
   <div class="grid-half mb">
     <div class="panel">
-      <div class="ph"><span class="pht">Error % por mes · 2024</span><span class="phs">registros ≥50 turistas</span></div>
-      <div style="height:240px;padding:8px"><canvas id="error-mes-chart" role="img" aria-label="Error porcentual mediano por mes"></canvas></div>
+      <div class="ph">
+        <span class="pht">Error % por mes · 2024</span>
+        <span class="phs">registros ≥50 turistas · verde = dentro ±15%</span>
+      </div>
+      <div style="height:230px;padding:8px">
+        <canvas id="error-mes-chart" role="img" aria-label="Error porcentual mediano por mes en 2024"></canvas>
+      </div>
     </div>
     <div class="panel">
-      <div class="ph"><span class="pht">Distribución mensual · todos los aeropuertos</span><span class="phs">real vs predicho 2024–2025</span></div>
-      <div style="height:240px;padding:8px"><canvas id="monthly-chart" role="img" aria-label="Distribución mensual real vs predicho"></canvas></div>
+      <div class="ph">
+        <span class="pht">Distribución mensual de turistas</span>
+        <span class="phs">real vs predicho · todos los aeropuertos · 2024–2025</span>
+      </div>
+      <div style="height:230px;padding:8px">
+        <canvas id="monthly-chart" role="img" aria-label="Distribución mensual real vs predicho"></canvas>
+      </div>
     </div>
   </div>
 
-  <div class="sh" style="margin-bottom:14px"><span class="shl">comparativa de modelos</span></div>
+  <!-- COMPARATIVA -->
+  <div class="sh mb14"><span class="shl">comparativa de modelos</span></div>
   <div class="panel mb">
     <div class="ph">
-      <span class="pht">XGBoost vs Random Forest · mismos datos de validación 2023–2025</span>
+      <span class="pht">XGBoost Mejorado vs Random Forest · mismos datos de validación 2023–2025</span>
       <span class="phs">Early stopping Jul–Dic 2022 · lr=0.005 · max_depth=9 · 3,035 árboles</span>
     </div>
     <div style="overflow-x:auto">
       <table class="ct">
-        <thead><tr><th>Año</th><th>Modelo</th><th>R²</th><th>MAE</th><th>MAPE global</th><th>MAPE negocio</th><th>Estado</th></tr></thead>
+        <thead>
+          <tr><th>Año</th><th>Modelo</th><th>R²</th><th>MAE</th>
+              <th>MAPE global</th><th>MAPE negocio</th><th>Estado</th></tr>
+        </thead>
         <tbody id="cmp-tbody"></tbody>
       </table>
     </div>
-    <div style="padding:8px 14px;border-top:1px solid var(--b0);display:flex;gap:20px;flex-wrap:wrap">
-      <span style="font-size:9px;color:var(--t3)">MAPE negocio: error mediano sobre registros ≥50 turistas</span>
-      <span style="font-size:9px;color:var(--t3)">Estándar industrial: ±15%</span>
-      <span style="font-size:9px;color:var(--t3)">Fuente: DATATUR · Secretaría de Turismo, México</span>
+    <div class="table-foot">
+      <span>MAPE negocio: error mediano sobre registros ≥50 turistas</span>
+      <span>Estándar industrial de predicción turística: ±15%</span>
+      <span>Fuente: DATATUR · Secretaría de Turismo, México</span>
     </div>
   </div>
 
@@ -196,317 +164,11 @@ footer{border-top:1px solid var(--b0);padding:16px 40px;display:flex;justify-con
 
 <footer>
   <span>Motor de Inteligencia Turística · México · Datos 2012–2025</span>
-  <span>XGBoost · 3,035 árboles · lr=0.005 · max_depth=9 · GPU CUDA</span>
-  <span>Oscar Montiel · 2026</span>
+  <span>XGBoost · 3,035 árboles · GPU CUDA · Oscar Montiel · 2026</span>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script>
-/* ── CONFIG ─────────────────────────────────────────────────────────── */
-const CSV_URL = 'https://raw.githubusercontent.com/Montiel-Oscar/predictive-tourism-intelligence-mexico/main/models/xgboost/predicciones_xgb_mejorado.csv';
-const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-
-/* ── DATOS EMBEBIDOS (siempre disponibles aunque el CSV no cargue) ─── */
-const FALLBACK = [
-  {Ano:2023,MesNum:1, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:221806,Prediccion_XGB:211469,Error_pct:4.7},
-  {Ano:2023,MesNum:2, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:213190,Prediccion_XGB:202658,Error_pct:4.9},
-  {Ano:2023,MesNum:3, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:260371,Prediccion_XGB:220319,Error_pct:15.4},
-  {Ano:2023,MesNum:4, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:205558,Prediccion_XGB:204613,Error_pct:0.5},
-  {Ano:2023,MesNum:5, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:205572,Prediccion_XGB:200603,Error_pct:2.4},
-  {Ano:2023,MesNum:6, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:259565,Prediccion_XGB:213495,Error_pct:17.7},
-  {Ano:2023,MesNum:7, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:268271,Prediccion_XGB:215754,Error_pct:19.6},
-  {Ano:2023,MesNum:8, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:195684,Prediccion_XGB:175189,Error_pct:10.5},
-  {Ano:2023,MesNum:9, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:131970,Prediccion_XGB:123998,Error_pct:6.0},
-  {Ano:2023,MesNum:10,Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:154433,Prediccion_XGB:145952,Error_pct:5.5},
-  {Ano:2023,MesNum:11,Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:199131,Prediccion_XGB:179398,Error_pct:9.9},
-  {Ano:2023,MesNum:12,Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:262450,Prediccion_XGB:224757,Error_pct:14.4},
-  {Ano:2024,MesNum:1, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:228242,Prediccion_XGB:207950,Error_pct:8.9},
-  {Ano:2024,MesNum:2, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:248937,Prediccion_XGB:203569,Error_pct:18.2},
-  {Ano:2024,MesNum:3, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:302152,Prediccion_XGB:222517,Error_pct:26.4},
-  {Ano:2024,MesNum:4, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:207580,Prediccion_XGB:202235,Error_pct:2.6},
-  {Ano:2024,MesNum:5, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:262677,Prediccion_XGB:160798,Error_pct:38.8},
-  {Ano:2024,MesNum:6, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:295894,Prediccion_XGB:213642,Error_pct:27.8},
-  {Ano:2024,MesNum:7, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:278541,Prediccion_XGB:217001,Error_pct:22.1},
-  {Ano:2024,MesNum:8, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:203933,Prediccion_XGB:176860,Error_pct:13.3},
-  {Ano:2024,MesNum:9, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:141668,Prediccion_XGB:121698,Error_pct:14.1},
-  {Ano:2024,MesNum:10,Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:177578,Prediccion_XGB:144356,Error_pct:18.7},
-  {Ano:2024,MesNum:11,Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:213618,Prediccion_XGB:179577,Error_pct:15.9},
-  {Ano:2024,MesNum:12,Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:271111,Prediccion_XGB:224821,Error_pct:17.1},
-  {Ano:2025,MesNum:1, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:243891,Prediccion_XGB:208542,Error_pct:14.5},
-  {Ano:2025,MesNum:2, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:247294,Prediccion_XGB:204881,Error_pct:17.2},
-  {Ano:2025,MesNum:3, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:327314,Prediccion_XGB:221834,Error_pct:32.2},
-  {Ano:2025,MesNum:4, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:240831,Prediccion_XGB:198714,Error_pct:17.5},
-  {Ano:2025,MesNum:5, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:244125,Prediccion_XGB:198796,Error_pct:18.6},
-  {Ano:2025,MesNum:6, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:290404,Prediccion_XGB:213669,Error_pct:26.4},
-  {Ano:2025,MesNum:7, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:295262,Prediccion_XGB:217712,Error_pct:26.3},
-  {Ano:2025,MesNum:8, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:199061,Prediccion_XGB:173026,Error_pct:13.1},
-  {Ano:2025,MesNum:9, Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:130766,Prediccion_XGB:124610,Error_pct:4.7},
-  {Ano:2025,MesNum:10,Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:182875,Prediccion_XGB:146039,Error_pct:20.1},
-  {Ano:2025,MesNum:11,Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:216509,Prediccion_XGB:179137,Error_pct:17.3},
-  {Ano:2025,MesNum:12,Aeropuerto:'cancun, q. roo',Pais:'estados unidos',Región:'america del norte',Sexo:'mujer',Valor_Residencia:268268,Prediccion_XGB:224625,Error_pct:16.3},
-];
-
-/* ── ESTADO GLOBAL ─────────────────────────────────────────────────── */
-let ALL = [];
-let segChart = null;
-Chart.defaults.color = '#3c4f65';
-
-const C = {real:'#dae4f5',pred:'#4f8ef7',fill:'rgba(79,142,247,.07)',
-           grid:'rgba(255,255,255,.04)',tick:'#3c4f65',
-           green:'#22d68a',amber:'#f5a623',red:'#e85555'};
-
-/* ── UTILS ──────────────────────────────────────────────────────────── */
-function fmtK(v){return v>=1e6?`${(v/1e6).toFixed(1)}M`:v>=1000?`${Math.round(v/1000)}k`:Math.round(v)}
-function errPct(r,p){return r>0?Math.abs((p-r)/r*100):0}
-
-/* ── CARGAR CSV (funciona si el repo es público) ─────────────────────── */
-function setStatus(msg, loading=true){
-  const el = document.getElementById('csv-status');
-  el.style.display = 'flex';
-  el.innerHTML = loading ? `<div class="spin"></div><span style="color:var(--t3)">${msg}</span>`
-                         : `<span style="color:var(--t3)">${msg}</span>`;
-}
-
-setStatus('Intentando cargar datos completos del modelo…');
-
-Papa.parse(CSV_URL, {
-  download: true, header: true, dynamicTyping: true,
-  complete(r){
-    const rows = r.data.filter(d => d.Aeropuerto && d.Valor_Residencia > 0);
-    if(rows.length > 0){
-      ALL = rows;
-      setStatus(`✓ ${ALL.length.toLocaleString()} predicciones cargadas`, false);
-      setTimeout(()=>{ document.getElementById('csv-status').style.display='none'; }, 3000);
-    } else {
-      ALL = FALLBACK;
-      setStatus('Repo privado — mostrando datos embebidos. Para cargar todos los datos haz el repo público.', false);
-    }
-    boot();
-  },
-  error(){
-    ALL = FALLBACK;
-    setStatus('Repo privado — mostrando datos embebidos. Para cargar todos los datos haz el repo público.', false);
-    boot();
-  }
-});
-
-/* ── INICIALIZAR ────────────────────────────────────────────────────── */
-function uniq(arr){ return [...new Set(arr)].filter(Boolean).sort(); }
-
-function boot(){
-  const airports = uniq(ALL.map(d=>d.Aeropuerto));
-  const countries = uniq(ALL.map(d=>d.Pais));
-  const regions   = uniq(ALL.map(d=>d.Región || d.Region || ''));
-
-  const sa = document.getElementById('s-air');
-  sa.innerHTML = airports.map(a=>{
-    const lbl = a.split(',')[0].replace(/(^\w|\s\w)/g,c=>c.toUpperCase());
-    return `<option value="${a}">${lbl}</option>`;
-  }).join('');
-  sa.value = 'cancun, q. roo';
-
-  const sc = document.getElementById('s-cty');
-  sc.innerHTML = '<option value="">Todos los países</option>' +
-    countries.map(c=>`<option value="${c}">${c}</option>`).join('');
-  sc.value = 'estados unidos';
-
-  const sr = document.getElementById('s-reg');
-  sr.innerHTML = '<option value="">Todas las regiones</option>' +
-    regions.map(r=>`<option value="${r}">${r}</option>`).join('');
-
-  /* País y región son mutuamente excluyentes: seleccionar uno limpia el otro */
-  sc.addEventListener('change',()=>{ if(sc.value) sr.value=''; renderSegment(); });
-  sr.addEventListener('change',()=>{ if(sr.value) sc.value=''; renderSegment(); });
-  ['s-air','s-sex','s-yr'].forEach(id=>
-    document.getElementById(id).addEventListener('change', renderSegment));
-
-  renderRanking();
-  renderSegment();
-  renderErrorMes();
-  renderMonthly();
-  renderCompTable();
-}
-
-/* ── RANKING ────────────────────────────────────────────────────────── */
-function renderRanking(){
-  const agg = {};
-  ALL.filter(d=>d.Ano>=2024).forEach(d=>{
-    if(!agg[d.Aeropuerto]) agg[d.Aeropuerto]=0;
-    agg[d.Aeropuerto]+=d.Prediccion_XGB;
-  });
-  const sorted = Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,14);
-  const mx = sorted[0][1];
-  document.getElementById('rank-body').innerHTML = sorted.map(([a,v],i)=>{
-    const lbl = (a.split(',')[0]).replace(/(^\w|\s\w)/g,c=>c.toUpperCase());
-    return `<div class="ri">
-      <span class="rn">${i+1}</span>
-      <div class="ri-info">
-        <div class="rnm">${lbl}</div>
-        <div class="rv">${fmtK(v)} predichos</div>
-      </div>
-      <div class="rbar"><div class="rfill" style="width:${Math.round(v/mx*100)}%"></div></div>
-    </div>`;
-  }).join('');
-}
-
-/* ── EXPLORADOR DE SEGMENTOS ─────────────────────────────────────────── */
-function renderSegment(){
-  const air = document.getElementById('s-air').value;
-  const cty = document.getElementById('s-cty').value;
-  const reg = document.getElementById('s-reg').value;
-  const sex = document.getElementById('s-sex').value;
-  const yr  = document.getElementById('s-yr').value;
-
-  let f = ALL.filter(d=>d.Aeropuerto===air);
-  if(cty) f=f.filter(d=>d.Pais===cty);
-  if(reg) f=f.filter(d=>(d.Región||d.Region||'')===reg);
-  if(sex) f=f.filter(d=>d.Sexo===sex);
-  if(yr!=='all') f=f.filter(d=>d.Ano==yr);
-
-  const bm={};
-  f.forEach(d=>{
-    const k=`${d.Ano}-${String(d.MesNum).padStart(2,'0')}`;
-    if(!bm[k]) bm[k]={real:0,pred:0,ano:d.Ano,mes:d.MesNum};
-    bm[k].real+=d.Valor_Residencia;
-    bm[k].pred+=d.Prediccion_XGB;
-  });
-  const keys=Object.keys(bm).sort();
-
-  if(!keys.length){
-    document.getElementById('seg-stats').innerHTML=`<div class="sc"><div class="sl">Resultado</div><div style="font-size:12px;color:var(--t3);padding-top:4px">Sin datos para esta combinación</div></div>`;
-    if(segChart){segChart.data.labels=[];segChart.data.datasets.forEach(d=>d.data=[]);segChart.update();}
-    return;
-  }
-
-  const lbls=keys.map(k=>`${MESES[bm[k].mes-1]} ${String(bm[k].ano).slice(-2)}`);
-  const reals=keys.map(k=>bm[k].real);
-  const preds=keys.map(k=>bm[k].pred);
-  const tr=reals.reduce((a,b)=>a+b,0);
-  const tp=preds.reduce((a,b)=>a+b,0);
-  const neg=keys.filter(k=>bm[k].real>=50);
-  const mape=neg.length?neg.reduce((s,k)=>s+errPct(bm[k].real,bm[k].pred),0)/neg.length:0;
-  const ec=mape<15?C.green:mape<20?C.amber:C.red;
-
-  const airLbl=air.split(',')[0].replace(/(^\w|\s\w)/g,c=>c.toUpperCase());
-  const segLbl=[airLbl,cty||reg||'todos los países',sex||'ambos géneros'].join(' · ');
-
-  document.getElementById('seg-stats').innerHTML=`
-    <div class="sc"><div class="sl">Segmento</div><div style="font-size:11px;color:var(--t2);padding-top:2px">${segLbl}</div></div>
-    <div class="sc"><div class="sl">Real total</div><div class="sv" style="color:var(--t1)">${fmtK(tr)}</div></div>
-    <div class="sc"><div class="sl">Predicho total</div><div class="sv" style="color:var(--blue-l)">${fmtK(tp)}</div></div>
-    <div class="sc"><div class="sl">MAPE negocio</div><div class="sv" style="color:${ec}">${mape.toFixed(1)}%</div></div>
-  `;
-
-  const unidad=Math.max(...reals)>5000?1000:1;
-  const ylabel=unidad===1000?'Miles de turistas':'Turistas';
-
-  const annotations={};
-  if(yr==='all') ['2024','2025'].forEach(y=>{
-    const i=keys.findIndex(k=>k.startsWith(y));
-    if(i>0) annotations[`y${y}`]={type:'line',xMin:i-.5,xMax:i-.5,borderColor:'rgba(255,255,255,.06)',borderWidth:1,borderDash:[4,3]};
-  });
-
-  const ds=[
-    {label:'Real',data:reals.map(v=>+(v/unidad).toFixed(1)),borderColor:C.real,backgroundColor:'rgba(220,228,245,.05)',borderWidth:2,pointRadius:3,pointHoverRadius:5,fill:true,tension:.3},
-    {label:'Predicción XGBoost',data:preds.map(v=>+(v/unidad).toFixed(1)),borderColor:C.pred,backgroundColor:C.fill,borderWidth:2,pointRadius:3,pointHoverRadius:5,borderDash:[5,3],fill:true,tension:.3},
-  ];
-
-  const BASE={
-    responsive:true,maintainAspectRatio:false,
-    plugins:{
-      legend:{display:true,position:'top',labels:{color:C.tick,font:{size:10},boxWidth:10,boxHeight:10,padding:12}},
-      tooltip:{backgroundColor:'#1c2230',borderColor:C.grid,borderWidth:1,titleColor:C.real,bodyColor:C.tick,padding:9},
-      annotation:{annotations}
-    },
-    scales:{
-      x:{grid:{color:C.grid},ticks:{color:C.tick,font:{size:9},autoSkip:false,maxRotation:45,maxTicksLimit:36}},
-      y:{grid:{color:C.grid},ticks:{color:C.tick,font:{size:9}},title:{display:true,text:ylabel,color:C.tick,font:{size:9}}}
-    }
-  };
-
-  if(segChart){
-    segChart.data={labels:lbls,datasets:ds};
-    segChart.options.plugins.annotation={annotations};
-    segChart.options.scales.y.title.text=ylabel;
-    segChart.update('active');
-  } else {
-    segChart=new Chart(document.getElementById('seg-chart'),{type:'line',data:{labels:lbls,datasets:ds},options:BASE});
-  }
-}
-
-/* ── ERROR POR MES ─────────────────────────────────────────────────── */
-function renderErrorMes(){
-  const f24=ALL.filter(d=>d.Ano===2024&&d.Valor_Residencia>=50);
-  const byMes={};
-  f24.forEach(d=>{
-    if(!byMes[d.MesNum]) byMes[d.MesNum]=[];
-    byMes[d.MesNum].push(errPct(d.Valor_Residencia,d.Prediccion_XGB));
-  });
-  const errs=Array.from({length:12},(_,i)=>{
-    const vs=byMes[i+1]||[];
-    if(!vs.length) return 0;
-    vs.sort((a,b)=>a-b);
-    return +vs[Math.floor(vs.length/2)].toFixed(1);
-  });
-  new Chart(document.getElementById('error-mes-chart'),{
-    type:'bar',
-    data:{labels:MESES,datasets:[{data:errs,backgroundColor:errs.map(v=>v>15?'rgba(232,85,85,.5)':'rgba(34,214,138,.4)'),borderColor:errs.map(v=>v>15?C.red:C.green),borderWidth:1,borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1c2230',bodyColor:C.tick,padding:8,callbacks:{label:c=>`Error: ${c.parsed.y}%`}}},
-      scales:{x:{grid:{color:C.grid},ticks:{color:C.tick,font:{size:9}}},y:{grid:{color:C.grid},ticks:{color:C.tick,font:{size:9},callback:v=>`${v}%`},suggestedMin:0}}}
-  });
-}
-
-/* ── DISTRIBUCIÓN MENSUAL ──────────────────────────────────────────── */
-function renderMonthly(){
-  const byMes={real:{},pred:{}};
-  ALL.filter(d=>d.Ano>=2024).forEach(d=>{
-    byMes.real[d.MesNum]=(byMes.real[d.MesNum]||0)+d.Valor_Residencia;
-    byMes.pred[d.MesNum]=(byMes.pred[d.MesNum]||0)+d.Prediccion_XGB;
-  });
-  const r=Array.from({length:12},(_,i)=>Math.round((byMes.real[i+1]||0)/1000));
-  const p=Array.from({length:12},(_,i)=>Math.round((byMes.pred[i+1]||0)/1000));
-  new Chart(document.getElementById('monthly-chart'),{
-    type:'bar',
-    data:{labels:MESES,datasets:[
-      {label:'Real',data:r,backgroundColor:'rgba(218,228,245,.18)',borderColor:'rgba(218,228,245,.35)',borderWidth:1,borderRadius:2},
-      {label:'Predicho',data:p,backgroundColor:'rgba(79,142,247,.4)',borderColor:'rgba(79,142,247,.7)',borderWidth:1,borderRadius:2}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,barPercentage:.7,categoryPercentage:.75,
-      plugins:{legend:{display:true,position:'top',labels:{color:C.tick,font:{size:10},boxWidth:10,boxHeight:10,padding:12}},
-        tooltip:{backgroundColor:'#1c2230',bodyColor:C.tick,padding:8}},
-      scales:{x:{grid:{color:C.grid},ticks:{color:C.tick,font:{size:9}}},y:{grid:{color:C.grid},ticks:{color:C.tick,font:{size:9},callback:v=>`${fmtK(v*1000)}`}}}}
-  });
-}
-
-/* ── TABLA COMPARATIVA ─────────────────────────────────────────────── */
-function renderCompTable(){
-  const CMP=[
-    {anio:'2023 · 1 año',xr:0.9857,xm:68.8,xg:32.3,xn:13.8,rr:0.9686,rm:93.8,rg:37.6,rn:19.0},
-    {anio:'2024 · 2 años',xr:0.9619,xm:96.5,xg:36.0,xn:16.8,rr:0.9833,rm:77.3,rg:37.8,rn:19.0},
-    {anio:'2025 · 3 años',xr:0.9610,xm:100.9,xg:36.0,xn:16.9,rr:0.9824,rm:78.1,rg:37.2,rn:17.6},
-  ];
-  const tagFor=v=>{
-    if(v<15) return '<span class="tag tag-g">Dentro ±15%</span>';
-    if(v<20) return '<span class="tag tag-a">Cerca</span>';
-    return '<span class="tag tag-r">Fuera</span>';
-  };
-  document.getElementById('cmp-tbody').innerHTML=CMP.map(r=>`
-    <tr>
-      <td rowspan="2" style="font-weight:600;border-right:1px solid var(--b0)">${r.anio}</td>
-      <td style="color:var(--blue-l);font-weight:600">XGBoost</td>
-      <td>${r.xr}</td><td>${r.xm}</td><td>${r.xg}%</td>
-      <td style="color:${r.xn<15?C.green:C.amber};font-weight:700">${r.xn}%</td>
-      <td>${tagFor(r.xn)}</td>
-    </tr>
-    <tr>
-      <td style="color:var(--t3)">Random Forest</td>
-      <td style="color:var(--t3)">${r.rr}</td><td style="color:var(--t3)">${r.rm}</td>
-      <td style="color:var(--t3)">${r.rg}%</td>
-      <td style="color:${r.rn<15?C.green:r.rn<20?C.amber:C.red}">${r.rn}%</td>
-      <td>${tagFor(r.rn)}</td>
-    </tr>`).join('');
-}
-</script>
+<script src="dashboard.js"></script>
 </body>
 </html>
