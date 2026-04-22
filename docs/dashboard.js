@@ -2,12 +2,32 @@
    El CSV se carga desde la misma URL de GitHub Pages (misma raíz del repo).
    No necesita raw.githubusercontent.com — funciona directamente.          */
 
-const CSV_PATH = 'models/xgboost/predicciones_xgb_mejorado.csv';
+// URL absoluta — raw.githubusercontent.com con refs/heads/main
+const CSV_PATH = 'https://raw.githubusercontent.com/Montiel-Oscar/predictive-tourism-intelligence-mexico/refs/heads/main/models/xgboost/predicciones_xgb_mejorado.csv';
 
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun',
                'Jul','Ago','Sep','Oct','Nov','Dic'];
 
-/* ── DATOS EMBEBIDOS — siempre disponibles si el CSV no carga ─────── */
+/* ── MAPEO PAÍS → REGIÓN (el CSV no tiene columna Región) ─────────── */
+const REGION_MAP = {
+  'estados unidos':'america del norte','canada':'america del norte',
+  'alemania':'europa','francia':'europa','espana':'europa',
+  'reino unido':'europa','italia':'europa','paises bajos':'europa',
+  'suiza':'europa','austria':'europa','belgica':'europa',
+  'suecia':'europa','noruega':'europa','dinamarca':'europa',
+  'portugal':'europa','rusia':'europa','polonia':'europa',
+  'checa, rep.':'europa','eslovaquia':'europa','hungria':'europa',
+  'argentina':'america del sur','brasil':'america del sur',
+  'colombia':'america del sur','chile':'america del sur',
+  'peru':'america del sur','venezuela':'america del sur',
+  'cuba':'centroamerica y caribe','costa rica':'centroamerica y caribe',
+  'guatemala':'centroamerica y caribe','panama':'centroamerica y caribe',
+  'japon':'asia','china':'asia','corea del sur':'asia',
+  'india':'asia','australia':'oceania','nueva zelanda':'oceania',
+  'israel':'medio oriente y africa','sudafrica':'medio oriente y africa',
+  'egipto':'medio oriente y africa',
+};
+const getRegion = pais => REGION_MAP[pais] || 'otros';
 const FALLBACK = (() => {
   const raw = [
     [2023,1,221806,211469,4.7],[2023,2,213190,202658,4.9],[2023,3,260371,220319,15.4],
@@ -23,13 +43,13 @@ const FALLBACK = (() => {
     [2025,7,295262,217712,26.3],[2025,8,199061,173026,13.1],[2025,9,130766,124610,4.7],
     [2025,10,182875,146039,20.1],[2025,11,216509,179137,17.3],[2025,12,268268,224625,16.3],
   ];
-  return raw.map(([Ano,MesNum,Valor_Residencia,Prediccion_XGB,Error_pct])=>({
+  return raw.map(([Ano,MesNum,Valor_Residencia,Prediccion_XGB_Mejorado,Error_pct])=>({
     Ano, MesNum,
     Aeropuerto:'cancun, q. roo',
     Pais:'estados unidos',
     Region:'america del norte',
     Sexo:'mujer',
-    Valor_Residencia, Prediccion_XGB, Error_pct
+    Valor_Residencia, Prediccion_XGB_Mejorado, Error_pct
   }));
 })();
 
@@ -93,14 +113,14 @@ Papa.parse(CSV_PATH, {
   dynamicTyping: true,
   complete(result) {
     const rows = result.data.filter(d =>
-      d.Aeropuerto && d.Valor_Residencia > 0 && d.Prediccion_XGB > 0
+      d.Aeropuerto && d.Valor_Residencia > 0 && d.Prediccion_XGB_Mejorado > 0
     );
     if (rows.length > 0) {
       ALL = rows;
-      // Normalizar nombre de columna Región/Region
+      // Normalizar Año → Ano y calcular Region desde Pais
       ALL.forEach(d => {
-        if (!d.Region && d['Región']) d.Region = d['Región'];
         if (!d.Ano && d['Año']) d.Ano = d['Año'];
+        d.Region = getRegion((d.Pais||'').toLowerCase());
       });
       setLoad(`✓ ${ALL.length.toLocaleString()} predicciones cargadas correctamente`, 'ok');
     } else {
@@ -158,7 +178,7 @@ function renderRanking() {
   const agg = {};
   ALL.filter(d => d.Ano >= 2024).forEach(d => {
     if (!agg[d.Aeropuerto]) agg[d.Aeropuerto] = 0;
-    agg[d.Aeropuerto] += d.Prediccion_XGB;
+    agg[d.Aeropuerto] += d.Prediccion_XGB_Mejorado;
   });
 
   const sorted = Object.entries(agg)
@@ -200,7 +220,7 @@ function renderSegment() {
     const k = `${d.Ano}-${String(d.MesNum).padStart(2,'0')}`;
     if (!bm[k]) bm[k] = {real:0, pred:0, ano:d.Ano, mes:d.MesNum};
     bm[k].real += d.Valor_Residencia;
-    bm[k].pred += d.Prediccion_XGB;
+    bm[k].pred += d.Prediccion_XGB_Mejorado;
   });
   const keys = Object.keys(bm).sort();
 
@@ -310,7 +330,7 @@ function renderErrorMes() {
   const byMes = {};
   f.forEach(d => {
     if (!byMes[d.MesNum]) byMes[d.MesNum] = [];
-    byMes[d.MesNum].push(errPct(d.Valor_Residencia, d.Prediccion_XGB));
+    byMes[d.MesNum].push(errPct(d.Valor_Residencia, d.Prediccion_XGB_Mejorado));
   });
 
   const errs = Array.from({length:12}, (_, i) => {
@@ -350,7 +370,7 @@ function renderMonthly() {
   const byMes = {real:{}, pred:{}};
   ALL.filter(d => d.Ano >= 2024).forEach(d => {
     byMes.real[d.MesNum] = (byMes.real[d.MesNum] || 0) + d.Valor_Residencia;
-    byMes.pred[d.MesNum] = (byMes.pred[d.MesNum] || 0) + d.Prediccion_XGB;
+    byMes.pred[d.MesNum] = (byMes.pred[d.MesNum] || 0) + d.Prediccion_XGB_Mejorado;
   });
 
   const r = Array.from({length:12}, (_, i) => Math.round((byMes.real[i+1]||0)/1000));
