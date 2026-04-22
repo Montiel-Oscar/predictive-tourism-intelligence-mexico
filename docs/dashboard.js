@@ -102,38 +102,61 @@ function setLoad(msg, state='loading') {
   msgEl.textContent = msg;
   el.className = 'load-bar ' + (state === 'loading' ? '' : state);
   if (spin) spin.style.display = state === 'loading' ? '' : 'none';
-  if (state !== 'loading') {
-    setTimeout(() => el.classList.add('hidden'), 4000);
-  }
+  if (state !== 'loading') setTimeout(() => el.classList.add('hidden'), 5000);
 }
 
-Papa.parse(CSV_PATH, {
-  download: true,
-  header: true,
-  dynamicTyping: true,
-  complete(result) {
-    const rows = result.data.filter(d =>
-      d.Aeropuerto && d.Valor_Residencia > 0 && d.Prediccion_XGB_Mejorado > 0
-    );
-    if (rows.length > 0) {
-      ALL = rows;
-      // Normalizar Año → Ano y calcular Region desde Pais
-      ALL.forEach(d => {
-        if (!d.Ano && d['Año']) d.Ano = d['Año'];
-        d.Region = getRegion((d.Pais||'').toLowerCase());
-      });
-      setLoad(`✓ ${ALL.length.toLocaleString()} predicciones cargadas correctamente`, 'ok');
-    } else {
-      ALL = FALLBACK;
-      setLoad('Datos embebidos — CSV no disponible en esta ruta', 'err');
+// URLs en orden de prioridad: raw, relativa Pages, relativa raíz
+const CSV_URLS = [
+  CSV_PATH,
+  'models/xgboost/predicciones_xgb_mejorado.csv',
+  './models/xgboost/predicciones_xgb_mejorado.csv',
+];
+
+function parseCSV(text) {
+  const result = Papa.parse(text.trim(), { header: true, dynamicTyping: true, skipEmptyLines: true });
+  return result.data.filter(d => d.Aeropuerto && d.Valor_Residencia > 0 && d.Prediccion_XGB_Mejorado > 0);
+}
+
+function normalizeRows(rows) {
+  rows.forEach(d => {
+    if (!d.Ano && d['Año']) d.Ano = Number(d['Año']);
+    d.Ano = Number(d.Ano);
+    d.MesNum = Number(d.MesNum);
+    d.Region = getRegion((d.Pais || '').toLowerCase());
+  });
+  return rows;
+}
+
+async function loadCSV() {
+  for (const url of CSV_URLS) {
+    try {
+      setLoad(`Cargando datos… (${url.split('/').pop()})`);
+      const res = await fetch(url, { mode: 'cors', cache: 'no-cache' });
+      if (!res.ok) { console.warn(`HTTP ${res.status} → ${url}`); continue; }
+      const text = await res.text();
+      const rows = parseCSV(text);
+      if (rows.length > 0) {
+        console.log(`CSV cargado desde: ${url} (${rows.length} filas)`);
+        return rows;
+      }
+      console.warn(`CSV vacío o columnas incorrectas en: ${url}`);
+    } catch(e) {
+      console.warn(`Error fetch ${url}:`, e.message);
     }
-    boot();
-  },
-  error() {
-    ALL = FALLBACK;
-    setLoad('Datos embebidos — verifica la ruta del CSV en el repo', 'err');
-    boot();
   }
+  return null;
+}
+
+loadCSV().then(rows => {
+  if (rows && rows.length > 0) {
+    ALL = normalizeRows(rows);
+    setLoad(`✓ ${ALL.length.toLocaleString()} predicciones cargadas`, 'ok');
+  } else {
+    ALL = normalizeRows([...FALLBACK]);
+    setLoad('Mostrando datos embebidos · Cancún·EE.UU.·Mujeres — abre DevTools (F12) para ver el error', 'err');
+    console.error('No se pudo cargar el CSV. URLs intentadas:', CSV_URLS);
+  }
+  boot();
 });
 
 /* ── BOOT ───────────────────────────────────────────────────────────── */
