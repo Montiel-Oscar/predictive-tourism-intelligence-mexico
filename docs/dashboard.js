@@ -1,5 +1,5 @@
 /* ── CSV ──────────────────────────────────────────────────────────── */
-const CSV_URL = 'https://raw.githubusercontent.com/Montiel-Oscar/predictive-tourism-intelligence-mexico/refs/heads/main/models/xgboost/predicciones_xgb_mejorado.csv';
+const CSV_URL = 'https://raw.githubusercontent.com/Montiel-Oscar/predictive-tourism-intelligence-mexico/refs/heads/main/models/random_forest/predicciones_rf.csv';
 const MESES   = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
 /* ── REGIÓN POR PAÍS ─────────────────────────────────────────────── */
@@ -150,14 +150,14 @@ function setLoad(msg, state='loading') {
 
 /* ── FETCH CSV ──────────────────────────────────────────────────────── */
 async function loadCSV() {
-  const urls = [CSV_URL, 'models/xgboost/predicciones_xgb_mejorado.csv'];
+  const urls = [CSV_URL, 'models/random_forest/predicciones_rf.csv'];
   for (const url of urls) {
     try {
       const res = await fetch(url, {mode:'cors',cache:'no-cache'});
       if (!res.ok) continue;
       const text = await res.text();
       const {data} = Papa.parse(text.trim(), {header:true,dynamicTyping:true,skipEmptyLines:true});
-      const rows = data.filter(d => d.Aeropuerto && d.Valor_Residencia>0 && d.Prediccion_XGB_Mejorado>0);
+      const rows = data.filter(d => d.Aeropuerto && d.Valor_Residencia>0 && d.Prediccion_RF>0);
       if (rows.length > 0) return rows;
     } catch(e) { console.warn(url, e.message); }
   }
@@ -234,7 +234,7 @@ const baseOpts = (ylabel='') => ({
 function renderSeasonalChart() {
   const byM = {};
   ALL.filter(d=>d.Ano>=2024).forEach(d=>{
-    byM[d.MesNum] = (byM[d.MesNum]||0) + d.Prediccion_XGB_Mejorado;
+    byM[d.MesNum] = (byM[d.MesNum]||0) + d.Prediccion_RF;
   });
   const vals = Array.from({length:12},(_,i)=>Math.round((byM[i+1]||0)/1000));
   new Chart(document.getElementById('seasonal-chart'),{
@@ -257,7 +257,7 @@ function renderSeasonalChart() {
 function renderMiniRank() {
   const agg = {};
   ALL.filter(d=>d.Ano>=2024).forEach(d=>{
-    agg[d.Aeropuerto] = (agg[d.Aeropuerto]||0)+d.Prediccion_XGB_Mejorado;
+    agg[d.Aeropuerto] = (agg[d.Aeropuerto]||0)+d.Prediccion_RF;
   });
   const top = Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const mx = top[0][1];
@@ -275,7 +275,7 @@ function renderMiniRank() {
 function renderFullRanking() {
   const agg = {};
   ALL.filter(d=>d.Ano>=2024).forEach(d=>{
-    agg[d.Aeropuerto] = (agg[d.Aeropuerto]||0)+d.Prediccion_XGB_Mejorado;
+    agg[d.Aeropuerto] = (agg[d.Aeropuerto]||0)+d.Prediccion_RF;
   });
   const sorted = Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,20);
   const mx = sorted[0][1];
@@ -318,7 +318,7 @@ function renderSegment() {
     const k=`${d.Ano}-${String(d.MesNum).padStart(2,'0')}`;
     if(!bm[k]) bm[k]={real:0,pred:0,ano:d.Ano,mes:d.MesNum};
     bm[k].real+=d.Valor_Residencia;
-    bm[k].pred+=d.Prediccion_XGB_Mejorado;
+    bm[k].pred+=d.Prediccion_RF;
   });
   const keys=Object.keys(bm).sort();
 
@@ -377,7 +377,7 @@ function renderErrorMes(f) {
   const byM={};
   filtered.forEach(d=>{
     if(!byM[d.MesNum]) byM[d.MesNum]=[];
-    byM[d.MesNum].push(errPct(d.Valor_Residencia,d.Prediccion_XGB_Mejorado));
+    byM[d.MesNum].push(errPct(d.Valor_Residencia,d.Prediccion_RF));
   });
   const errs=Array.from({length:12},(_,i)=>byM[i+1]?+median(byM[i+1]).toFixed(1):null);
 
@@ -418,7 +418,7 @@ function renderTopPaises() {
   const yr  = document.getElementById('s-yr').value;
   const f2  = ALL.filter(d=>d.Aeropuerto===air && (yr==='all'||d.Ano==yr) && d.Ano>=2024);
   const agg={};
-  f2.forEach(d=>{ agg[d.Pais]=(agg[d.Pais]||0)+d.Prediccion_XGB_Mejorado; });
+  f2.forEach(d=>{ agg[d.Pais]=(agg[d.Pais]||0)+d.Prediccion_RF; });
   const top=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,10);
   const lbls=top.map(([p])=>p.replace(/(^\w|\s\w)/g,c=>c.toUpperCase()));
   const vals=top.map(([,v])=>Math.round(v));
@@ -448,7 +448,7 @@ function renderSeasonRegion() {
   ALL.filter(d=>d.Ano>=2024).forEach(d=>{
     if(!regs.includes(d.Region)) return;
     if(!byRM[d.Region]) byRM[d.Region]={};
-    byRM[d.Region][d.MesNum]=(byRM[d.Region][d.MesNum]||0)+d.Prediccion_XGB_Mejorado;
+    byRM[d.Region][d.MesNum]=(byRM[d.Region][d.MesNum]||0)+d.Prediccion_RF;
   });
   const datasets=regs.map(r=>({
     label:r,
@@ -477,7 +477,7 @@ function renderMexicoMap() {
   const stateVol={};
   ALL.filter(d=>d.Ano>=2024).forEach(d=>{
     const e=d.Estado;
-    stateVol[e]=(stateVol[e]||0)+d.Prediccion_XGB_Mejorado;
+    stateVol[e]=(stateVol[e]||0)+d.Prediccion_RF;
   });
 
   const stateRank=Object.entries(stateVol).sort((a,b)=>b[1]-a[1]);
@@ -586,7 +586,7 @@ function renderWorldMap() {
   const paisVol={};
   ALL.filter(d=>d.Ano>=2024).forEach(d=>{
     const p=(d.Pais||'').toLowerCase();
-    paisVol[p]=(paisVol[p]||0)+d.Prediccion_XGB_Mejorado;
+    paisVol[p]=(paisVol[p]||0)+d.Prediccion_RF;
   });
 
   const isoVol={};
@@ -654,7 +654,7 @@ function renderWorldMap() {
 /* ── COUNTRY RANK ────────────────────────────────────────────────────── */
 function renderCountryRank() {
   const agg={};
-  ALL.filter(d=>d.Ano>=2024).forEach(d=>{ agg[d.Pais]=(agg[d.Pais]||0)+d.Prediccion_XGB_Mejorado; });
+  ALL.filter(d=>d.Ano>=2024).forEach(d=>{ agg[d.Pais]=(agg[d.Pais]||0)+d.Prediccion_RF; });
   const top=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,20);
   const lbls=top.map(([p])=>p.replace(/(^\w|\s\w)/g,c=>c.toUpperCase()));
   const vals=top.map(([,v])=>Math.round(v));

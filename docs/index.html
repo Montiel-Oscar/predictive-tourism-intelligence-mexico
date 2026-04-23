@@ -32,23 +32,41 @@
   <section id="s-overview" class="sec active">
     <div class="sh mb14"><span class="shl">indicadores del modelo</span></div>
     <div class="kpi-grid mb">
-      <div class="kpi">
+      <div class="kpi kpi-tooltip" data-year="2023">
         <div class="kpi-acc" style="background:var(--green)"></div>
         <div class="kl">MAPE negocio 2023</div>
-        <div class="kv" style="color:var(--green)">13.8<span class="ku">%</span></div>
-        <div class="kd">1 año de distancia</div>
+        <div class="kv" style="color:var(--green)">13.5<span class="ku">%</span></div>
+        <div class="kd">≥1,000 turistas · 1 año</div>
+        <div class="kpi-tip">
+          <div class="kpi-tip-title">Comparativa 2023 · MAPE ≥1,000</div>
+          <div class="kpi-tip-row winner"><span>Random Forest</span><span>13.5%</span></div>
+          <div class="kpi-tip-row"><span>XGBoost Tweedie</span><span>13.7%</span></div>
+          <div class="kpi-tip-row"><span>XGBoost</span><span>15.0%</span></div>
+        </div>
       </div>
-      <div class="kpi">
-        <div class="kpi-acc" style="background:var(--amber)"></div>
+      <div class="kpi kpi-tooltip" data-year="2024">
+        <div class="kpi-acc" style="background:var(--green)"></div>
         <div class="kl">MAPE negocio 2024</div>
-        <div class="kv" style="color:var(--amber)">16.8<span class="ku">%</span></div>
-        <div class="kd">2 años sin reentrenar</div>
+        <div class="kv" style="color:var(--green)">12.5<span class="ku">%</span></div>
+        <div class="kd">≥1,000 turistas · 2 años</div>
+        <div class="kpi-tip">
+          <div class="kpi-tip-title">Comparativa 2024 · MAPE ≥1,000</div>
+          <div class="kpi-tip-row winner"><span>Random Forest</span><span>12.5%</span></div>
+          <div class="kpi-tip-row"><span>XGBoost Tweedie</span><span>13.0%</span></div>
+          <div class="kpi-tip-row"><span>XGBoost</span><span>13.9%</span></div>
+        </div>
       </div>
-      <div class="kpi">
-        <div class="kpi-acc" style="background:var(--amber)"></div>
+      <div class="kpi kpi-tooltip" data-year="2025">
+        <div class="kpi-acc" style="background:var(--green)"></div>
         <div class="kl">MAPE negocio 2025</div>
-        <div class="kv" style="color:var(--amber)">16.9<span class="ku">%</span></div>
-        <div class="kd">3 años sin reentrenar</div>
+        <div class="kv" style="color:var(--green)">10.8<span class="ku">%</span></div>
+        <div class="kd">≥1,000 turistas · 3 años</div>
+        <div class="kpi-tip">
+          <div class="kpi-tip-title">Comparativa 2025 · MAPE ≥1,000</div>
+          <div class="kpi-tip-row winner"><span>Random Forest</span><span>10.8%</span></div>
+          <div class="kpi-tip-row"><span>XGBoost Tweedie</span><span>12.5%</span></div>
+          <div class="kpi-tip-row"><span>XGBoost</span><span>13.7%</span></div>
+        </div>
       </div>
       <div class="kpi">
         <div class="kpi-acc" style="background:#7c6af5"></div>
@@ -67,12 +85,12 @@
     <div class="exec-card mb">
       <div class="exec-text">
         <div class="exec-title">Qué predice este modelo</div>
-        <p>El flujo mensual de turistas internacionales por aeropuerto, país de residencia y género — con un error mediano de <strong>13.8%</strong> sobre datos que el modelo nunca vio durante su entrenamiento.</p>
-        <p>Entrenado con 13 años de historia (2012–2022) y validado en tres años consecutivos sin reentrenamiento.</p>
+        <p>El flujo mensual de turistas internacionales por aeropuerto, país de residencia y género — con un error mediano de <strong>10.8%</strong> en los segmentos de mayor volumen sobre datos que el modelo nunca vio durante su entrenamiento.</p>
+        <p>Entrenado con 13 años de historia (2012–2022) y validado en tres años consecutivos sin reentrenamiento. Se evaluaron tres algoritmos distintos bajo las mismas condiciones; Random Forest obtuvo el menor error en 2024 y 2025.</p>
       </div>
       <div class="exec-stats">
         <div class="estat"><span class="eval">267,799</span><span class="elab">observaciones de entrenamiento</span></div>
-        <div class="estat"><span class="eval">3,035</span><span class="elab">árboles XGBoost</span></div>
+        <div class="estat"><span class="eval">2,000</span><span class="elab">árboles Random Forest</span></div>
         <div class="estat"><span class="eval">2012–2022</span><span class="elab">período de entrenamiento</span></div>
         <div class="estat"><span class="eval">2023–2025</span><span class="elab">validación temporal</span></div>
       </div>
