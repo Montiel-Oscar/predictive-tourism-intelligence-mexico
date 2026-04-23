@@ -1,0 +1,53 @@
+{
+  "modelo": "XGBoost Tweedie",
+  "entrenamiento": "2012-2022",
+  "best_n": 3969,
+  "tweedie_variance_power": 1.5,
+  "device": "cuda",
+  "tiempo_s": 30.2,
+  "features": [
+    "MesNum",
+    "mes_sin",
+    "mes_cos",
+    "Trimestre",
+    "Es_temporada_alta",
+    "A\u00f1os_desde_inicio",
+    "mes_share_aeropuerto",
+    "Sexo_enc",
+    "Region_enc",
+    "Aeropuerto_enc",
+    "Pais_enc",
+    "nac_imputada",
+    "Lag_1_mes",
+    "Lag_2_mes",
+    "Lag_3_mes",
+    "Lag_12_meses",
+    "Rolling_3m",
+    "log_lag1",
+    "log_rolling",
+    "log_lag12",
+    "ratio_lag1_lag12",
+    "tendencia_reciente"
+  ],
+  "r2_2023": 0.9745,
+  "mapes_2023": {
+    "250": 15.5,
+    "1000": 13.7,
+    "10000": 13.3,
+    "100000": 11.1
+  },
+  "r2_2024": 0.976,
+  "mapes_2024": {
+    "250": 15.0,
+    "1000": 13.0,
+    "10000": 13.9,
+    "100000": 11.1
+  },
+  "r2_2025": 0.9747,
+  "mapes_2025": {
+    "250": 14.9,
+    "1000": 12.5,
+    "10000": 13.5,
+    "100000": 9.5
+  }
+}
