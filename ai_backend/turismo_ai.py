@@ -4,6 +4,9 @@ from google import genai
 from google.genai import types
 import pandas as pd
 import os 
+import uvicorn
+
+
 
 app = FastAPI()
 app.add_middleware(
@@ -156,3 +159,9 @@ async def chat(body: dict):
 @app.get("/health")
 async def health():
     return {"status": "ok", "filas": len(df)}
+
+if __name__ == "__main__":
+    # Busca el puerto que Google exige, si no lo encuentra usa el 8080
+    puerto = int(os.environ.get("PORT", 8080))
+    # Arranca el servidor obligándolo a usar ese puerto exacto
+    uvicorn.run(app, host="0.0.0.0", port=puerto)
