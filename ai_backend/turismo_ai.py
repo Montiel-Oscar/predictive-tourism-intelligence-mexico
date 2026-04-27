@@ -14,7 +14,7 @@ app.add_middleware(
 )
 
 # ── CONFIGURACIÓN ──────────────────────────────────────────────────────
-API_KEY  = "AIzaSyCk3plNYXb4CovRae8KUaAsAb_BY09vhYs"
+API_KEY  = ""
 CSV_PATH = r"E:\github\predictive-tourism-intelligence-mexico\models\random_forest\predicciones_rf.csv"
 
 client = genai.Client(api_key=API_KEY)
