@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from google import genai
 from google.genai import types
 import pandas as pd
+import os 
 
 app = FastAPI()
 app.add_middleware(
@@ -14,8 +15,8 @@ app.add_middleware(
 )
 
 # ── CONFIGURACIÓN ──────────────────────────────────────────────────────
-API_KEY  = ""
-CSV_PATH = r"E:\github\predictive-tourism-intelligence-mexico\models\random_forest\predicciones_rf.csv"
+API_KEY  = os.environ.get("GEMINI_API_KEY", "")
+CSV_PATH = "../models/random_forest/predicciones_rf.csv"
 
 client = genai.Client(api_key=API_KEY)
 
