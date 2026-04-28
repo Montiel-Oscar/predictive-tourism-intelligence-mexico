@@ -46,7 +46,7 @@ def analizar_datos(aeropuerto: str = None, pais: str = None,
     if aeropuerto: f = f[f["Aeropuerto"].str.contains(aeropuerto, case=False, na=False)]
     if pais:       f = f[f["Pais"].str.contains(pais, case=False, na=False)]
     if sexo:       f = f[f["Sexo"].str.lower() == sexo.lower()]
-    if ano:        f = f[f["Ano"] == ano]
+    if ano: f = f[f["Ano"].astype(str) == str(ano)]
     if mes:        f = f[f["MesNum"] == mes]
     
     if f.empty:    return {"resultado": "Sin datos para estos filtros."}
@@ -155,6 +155,16 @@ async def chat(body: dict):
     except Exception as e:
         print(f"ERROR: {str(e)}")
         return {"respuesta": f"Experimenté un fallo técnico. Reformula tu pregunta. (Error: {str(e)})"}
+    
+@app.get("/debug")
+async def debug():
+    return {
+        "columnas": list(df.columns),
+        "tipos": {c: str(df[c].dtype) for c in df.columns},
+        "anos_disponibles": sorted(df["Ano"].unique().tolist()) if "Ano" in df.columns else "NO EXISTE columna Ano",
+        "ejemplo_paises": df["Pais"].head(10).tolist() if "Pais" in df.columns else "NO EXISTE",
+        "muestra": df.head(3).to_dict(orient="records")
+    }
 
 @app.get("/health")
 async def health():
