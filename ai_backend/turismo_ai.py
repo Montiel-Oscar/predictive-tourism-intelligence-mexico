@@ -21,8 +21,8 @@ load_dotenv()
 
 # ── CONFIGURACIÓN LOCAL ──────────────────────────────────────────────
 API_KEY = os.getenv("GEMINI_API_KEY")
-CSV_PATH = r"E:\github\predictive-tourism-intelligence-mexico\models\random_forest\predicciones_rf.csv"
-
+CSV_PATH = "https://raw.githubusercontent.com/Montiel-Oscar/predictive-tourism-intelligence-mexico/refs/heads/main/models/random_forest/predicciones_rf.csv"
+df = pd.read_csv(CSV_PATH)
 client = genai.Client(api_key=API_KEY)
 
 print("Cargando CSV y limpiando columnas...")
