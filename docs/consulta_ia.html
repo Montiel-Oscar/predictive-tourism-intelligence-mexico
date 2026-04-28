@@ -177,7 +177,7 @@ let backendOk  = false;
 /* ── VERIFICAR BACKEND ─────────────────────────────────────────────── */
 async function checkBackend() {
   try {
-    const r = await fetch(`${BACKEND}/health`, {signal: AbortSignal.timeout(3000)});
+    const r = await fetch(`${BACKEND}/health`, {signal: AbortSignal.timeout(10000)});
     const d = await r.json();
     if (d.status === 'ok') {
       document.getElementById('status-dot').className = 'ok';
@@ -188,9 +188,12 @@ async function checkBackend() {
     }
   } catch {
     document.getElementById('status-dot').className = 'err';
-    document.getElementById('status-txt').textContent = 'Backend no disponible — corre uvicorn turismo_ai:app --port 8000';
+    document.getElementById('status-txt').textContent = 'Conectando… puede tardar unos segundos';
+    backendOk = false;
+    setTimeout(checkBackend, 5000);
   }
 }
+
 checkBackend();
 setInterval(checkBackend, 15000); // reverifica cada 15s
 
@@ -257,9 +260,10 @@ function format(text) {
 /* ── ENVIAR MENSAJE ────────────────────────────────────────────────── */
 async function send() {
   if (!backendOk) {
-    alert('El backend no está activo. Corre: uvicorn turismo_ai:app --port 8000');
+    appendMsg('bot', 'El backend está iniciando, espera unos segundos e intenta de nuevo.');
     return;
   }
+
 
   const input = document.getElementById('ai-input');
   const btn   = document.getElementById('send-btn');
@@ -294,8 +298,8 @@ async function send() {
 
   } catch(e) {
     removeThinking();
-    appendMsg('bot', `<strong>Error:</strong> No se pudo conectar con el backend.<br>
-      Verifica que <code>uvicorn turismo_ai:app --port 8000</code> esté corriendo.`);
+    appendMsg('bot', `<strong>Error de conexión.</strong> El backend puede estar iniciando — espera 10 segundos e intenta de nuevo.`);
+
     console.error(e);
   }
 
