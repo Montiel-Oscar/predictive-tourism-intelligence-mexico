@@ -3,9 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from google import genai
 from google.genai import types
 import pandas as pd
-import os 
-import uvicorn
-
+import os
+from dotenv import load_dotenv
 
 
 app = FastAPI()
@@ -17,26 +16,33 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── CONFIGURACIÓN ──────────────────────────────────────────────────────
-API_KEY  = os.environ.get("GEMINI_API_KEY", "")
-CSV_PATH = "../models/random_forest/predicciones_rf.csv"
+# Carga las variables ocultas del archivo .env
+load_dotenv() 
+
+# ── CONFIGURACIÓN LOCAL ──────────────────────────────────────────────
+API_KEY = os.getenv("GEMINI_API_KEY")
+CSV_PATH = r"E:\github\predictive-tourism-intelligence-mexico\models\random_forest\predicciones_rf.csv"
 
 client = genai.Client(api_key=API_KEY)
 
 print("Cargando CSV y limpiando columnas...")
-df = pd.read_csv(CSV_PATH)
-# Limpiamos nombres por si acaso
-df = df.rename(columns={'Año': 'Ano', 'Región': 'Region'})
-print(f"Listo: {len(df):,} filas. Columnas: {list(df.columns)}")
+try:
+    df = pd.read_csv(CSV_PATH)
+    df = df.rename(columns={'Año': 'Ano', 'Región': 'Region'})
+    print(f"Listo: {len(df):,} filas. Columnas: {list(df.columns)}")
+except Exception as e:
+    print(f"Error al cargar el CSV: {e}")
+    df = pd.DataFrame()
 
 # ── LA HERRAMIENTA MAESTRA (Filtra y Agrupa dinámicamente) ─────────────
 def analizar_datos(aeropuerto: str = None, pais: str = None, 
                    ano: int = None, mes: int = None, sexo: str = None, 
                    agrupar_por: list = None, top_n: int = 5):
     """Filtra y agrupa el dataframe dinámicamente según lo pida Gemini."""
+    if df.empty: return {"resultado": "Base de datos no disponible."}
     f = df.copy()
     
-    # 1. Aplicar Filtros
+    # 1. Filtros
     if aeropuerto: f = f[f["Aeropuerto"].str.contains(aeropuerto, case=False, na=False)]
     if pais:       f = f[f["Pais"].str.contains(pais, case=False, na=False)]
     if sexo:       f = f[f["Sexo"].str.lower() == sexo.lower()]
@@ -45,7 +51,7 @@ def analizar_datos(aeropuerto: str = None, pais: str = None,
     
     if f.empty:    return {"resultado": "Sin datos para estos filtros."}
     
-    # 2. Agrupar si Gemini lo solicita
+    # 2. Agrupación Dinámica
     cols_validas = ["Aeropuerto", "Pais", "Ano", "MesNum", "Sexo"]
     agrupar_real = [c for c in (agrupar_por or []) if c in cols_validas]
     
@@ -54,10 +60,8 @@ def analizar_datos(aeropuerto: str = None, pais: str = None,
     else:
         agg = f
 
-    # 3. Ordenar y limitar
+    # 3. Orden y Límite
     agg = agg.sort_values("Prediccion_RF", ascending=False).head(top_n)
-    
-    # Redondear para que Gemini no se confunda con decimales
     agg["Prediccion_RF"] = agg["Prediccion_RF"].round(0).astype(int)
     
     return {"resultado": agg.to_dict(orient="records")}
@@ -73,12 +77,12 @@ TOOLS = [
             parameters=types.Schema(
                 type="OBJECT",
                 properties={
-                    "aeropuerto": types.Schema(type="STRING", description="Filtro de Aeropuerto (ej. 'cabos', 'cancun')"),
-                    "pais":       types.Schema(type="STRING", description="Filtro de País (ej. 'alemania', 'estados unidos')"),
-                    "ano":        types.Schema(type="INTEGER", description="Filtro de Año (2023, 2024, 2025)"),
-                    "mes":        types.Schema(type="INTEGER", description="Filtro de Mes (1 a 12)"),
-                    "sexo":       types.Schema(type="STRING", description="Filtro de Sexo ('hombre', 'mujer')"),
-                    "top_n":      types.Schema(type="INTEGER", description="Cuántos resultados devolver (ej. 5 para un 'Top 5')"),
+                    "aeropuerto": types.Schema(type="STRING"),
+                    "pais":       types.Schema(type="STRING"),
+                    "ano":        types.Schema(type="INTEGER"),
+                    "mes":        types.Schema(type="INTEGER"),
+                    "sexo":       types.Schema(type="STRING"),
+                    "top_n":      types.Schema(type="INTEGER", description="Cuántos resultados devolver"),
                     "agrupar_por": types.Schema(
                         type="ARRAY",
                         items=types.Schema(type="STRING"),
@@ -100,7 +104,7 @@ Responde de forma natural, ejecutiva, resumiendo los hallazgos numéricos en esp
     tools=TOOLS,
 )
 
-# ── ENDPOINT A PRUEBA DE FALLOS ───────────────────────────────────────
+# ── ENDPOINT ─────────────────────────────────────────────────────────
 @app.post("/chat")
 async def chat(body: dict):
     try:
@@ -123,12 +127,10 @@ async def chat(body: dict):
 
         part = response.candidates[0].content.parts[0]
 
-        # Si Gemini decide llamar a la función
         if hasattr(part, "function_call") and part.function_call:
             fn_name = part.function_call.name
             fn_args = dict(part.function_call.args)
             
-            # Asegurarnos de que agrupar_por sea una lista si Gemini lo manda mal
             if "agrupar_por" in fn_args and not isinstance(fn_args["agrupar_por"], list):
                 fn_args["agrupar_por"] = [fn_args["agrupar_por"]]
 
@@ -148,20 +150,12 @@ async def chat(body: dict):
             )
             return {"respuesta": response2.text, "fn_usada": fn_name}
 
-        # Si Gemini responde directo sin llamar a la función
         return {"respuesta": response.text}
 
     except Exception as e:
-        print(f"ERROR CRÍTICO EN BACKEND: {str(e)}")
-        # Esto evita que tu frontend diga "No se pudo conectar"
-        return {"respuesta": f"Experimenté un fallo técnico al consultar la base de datos. Por favor, reformula tu pregunta. (Error interno: {str(e)})"}
+        print(f"ERROR: {str(e)}")
+        return {"respuesta": f"Experimenté un fallo técnico. Reformula tu pregunta. (Error: {str(e)})"}
 
 @app.get("/health")
 async def health():
     return {"status": "ok", "filas": len(df)}
-
-if __name__ == "__main__":
-    # Busca el puerto que Google exige, si no lo encuentra usa el 8080
-    puerto = int(os.environ.get("PORT", 8080))
-    # Arranca el servidor obligándolo a usar ese puerto exacto
-    uvicorn.run(app, host="0.0.0.0", port=puerto)

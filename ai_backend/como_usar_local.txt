@@ -1,0 +1,9 @@
+Instalar dotenv
+
+pip install python-dotenv
+
+Crear un archivo .env con el siguiente contenido:
+
+GEMINI_API_KEY=aquiponerunaapikey
+
+Para usar solo dar click en el archivo bat (en windows)
