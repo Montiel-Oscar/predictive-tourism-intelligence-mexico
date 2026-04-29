@@ -119,20 +119,17 @@ footer{border-top:1px solid var(--b0);padding:12px 24px;font-size:9px;
     completo al dataset de <strong>104,000 registros</strong> — 66 aeropuertos, 243 países
     de origen, años 2023–2025 — y consulta los datos reales antes de responder.</p>
     <p style="margin-top:6px;font-size:11px">
-      Requiere que el backend Python esté corriendo en tu computadora:
-      <code style="background:rgba(0,0,0,.06);padding:1px 5px;border-radius:3px">
-        uvicorn turismo_ai:app --port 8000
-      </code>
+      Requiere que el backend en Google Cloud esté activo
     </p>
   </div>
 
   <div class="chips" id="chips">
     <span style="font-size:10px;font-weight:600;color:var(--t3);align-self:center">Ejemplos:</span>
-    <button class="chip" onclick="setQ(this)">¿En qué mes llegan más turistas de Europa?</button>
+    <button class="chip" onclick="setQ(this)">¿En qué mes llegan más turistas de canada en 2024 ?</button>
     <button class="chip" onclick="setQ(this)">¿Qué aeropuerto tiene mayor crecimiento de 2023 a 2025?</button>
-    <button class="chip" onclick="setQ(this)">¿Cuál es el top 5 de países que visitan Los Cabos?</button>
-    <button class="chip" onclick="setQ(this)">¿Cómo evolucionó el turismo asiático año a año?</button>
-    <button class="chip" onclick="setQ(this)">¿En qué aeropuerto hay más turistas alemanes?</button>
+    <button class="chip" onclick="setQ(this)">¿Cuál es el top 5 de países que visitan Los Cabos en 2025?</button>
+    <button class="chip" onclick="setQ(this)">¿Cómo evolucionó el turismo de japon año a año?</button>
+    <button class="chip" onclick="setQ(this)">¿En qué aeropuerto hay más turistas alemanes en 2023?</button>
     <button class="chip" onclick="setQ(this)">Compara mujeres vs hombres en Cancún 2024</button>
   </div>
 
